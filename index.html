@@ -325,15 +325,15 @@
 
   /* HERO */
   .hero {
-    min-height: 100vh;
-    padding-top: 9rem;
+    min-height: 100svh;
+    padding-top: clamp(7rem, 13svh, 11rem);
     display: grid;
     grid-template-rows: auto 1fr auto;
     position: relative;
   }
   .hero-rule {
     display: flex; justify-content: space-between; align-items: center;
-    padding-bottom: 4rem;
+    padding-bottom: clamp(1.5rem, 3svh, 4rem);
     border-bottom: 1px solid var(--rule);
   }
   .hero-rule .ord {
@@ -355,7 +355,7 @@
     grid-template-columns: minmax(0, 1fr) auto;
     align-items: end;
     gap: 4rem;
-    padding: 4rem 0;
+    padding: clamp(1.5rem, 4svh, 4rem) 0;
   }
   @media (max-width: 900px) { .hero-center { grid-template-columns: 1fr; } }
 
@@ -1170,6 +1170,53 @@
     .divider .glyph { font-size: 0.72rem; letter-spacing: 0.22em; }
   }
 
+  .section-rule {
+    position: relative;
+    z-index: 3;
+    padding: 2.2rem 3rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0;
+  }
+  .section-rule::before,
+  .section-rule::after {
+    content: '';
+    flex: 1;
+    height: 0;
+    border-top: 1px solid var(--rule);
+    border-bottom: 1px solid var(--rule-soft);
+    margin-top: 2px;
+  }
+  .section-rule .sr-mark {
+    width: 28px;
+    height: 28px;
+    flex-shrink: 0;
+    margin: 0 1.6rem;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .section-rule .sr-mark::before {
+    content: '';
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    border: 1px solid var(--gold);
+    transform: rotate(45deg);
+    background: var(--paper);
+  }
+  .section-rule .sr-mark::after {
+    content: '';
+    position: absolute;
+    width: 5px;
+    height: 5px;
+    background: var(--gold);
+    transform: rotate(45deg);
+  }
+  @media (max-width: 800px) { .section-rule { padding: 1.8rem 1.4rem; } }
+
   /* Illuminated capital */
   .manifesto .illum {
     float: left;
@@ -1406,6 +1453,224 @@
   .copy-btn:hover { background: var(--sindoor); letter-spacing: 0.28em; }
   .copy-btn.copied { background: var(--leaf); letter-spacing: 0.24em; }
 
+
+  /* =============================================================
+     UPKEEP — manuscript ledger
+     ============================================================= */
+  #cost { position: relative; }
+
+  /* Ledger of upkeep items — mirrors the tenets pattern but always visible */
+  /* Cost cards — horizontal 4-up grid */
+  .cost-cards {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.2rem;
+    margin: 3.5rem 0 4rem;
+  }
+  .cost-card {
+    background: var(--paper);
+    border: 1px solid var(--rule);
+    padding: 2rem 1.6rem 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.9rem;
+    position: relative;
+    transition: background .3s;
+  }
+  .cost-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--gold-deep), var(--gold-bright) 50%, var(--gold-deep));
+  }
+  .cost-card:hover { background: var(--paper-soft); }
+  .cost-card .ord {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.28em;
+    color: var(--gold-deep);
+    text-transform: uppercase;
+  }
+  .cost-card .ttl {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(1.15rem, 1.6vw, 1.45rem);
+    font-weight: 500;
+    line-height: 1.2;
+    color: var(--ink);
+  }
+  .cost-card .note {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 1rem;
+    line-height: 1.55;
+    color: var(--ink-soft);
+    margin-top: auto;
+  }
+  @media (max-width: 900px) {
+    .cost-cards { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (max-width: 500px) {
+    .cost-cards { grid-template-columns: 1fr; }
+  }
+
+  /* Price + marginalia row */
+  .cost-footer {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1px;
+    background: var(--rule);
+    border: 1px solid var(--rule);
+    border-top: 2px solid var(--gold-deep);
+    border-bottom: 2px solid var(--gold-deep);
+    margin-bottom: 0;
+  }
+  @media (max-width: 700px) { .cost-footer { grid-template-columns: 1fr; } }
+
+  /* Ornamental price callout */
+  .upkeep-quote {
+    background: var(--paper);
+    text-align: center;
+    padding: 2.6rem 2.4rem;
+    position: relative;
+    margin: 0;
+    border: none;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  .upkeep-quote::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--gold-deep), var(--gold-bright) 50%, var(--gold-deep));
+  }
+  .uq-glyph {
+    color: var(--gold-deep);
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+    display: block;
+  }
+  .uq-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--ink-mute);
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+  }
+  .uq-amount {
+    font-family: 'Cormorant Garamond', serif;
+    line-height: 1;
+    margin-bottom: 1rem;
+  }
+  .uq-amount em {
+    font-style: italic;
+    font-weight: 500;
+    font-size: clamp(2.8rem, 5vw, 4.2rem);
+    color: var(--sindoor);
+    letter-spacing: -0.01em;
+  }
+  .uq-per {
+    display: block;
+    margin-top: 0.6rem;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: var(--ink-mute);
+    font-style: normal;
+  }
+  .uq-note {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 1.05rem;
+    line-height: 1.6;
+    color: var(--ink-soft);
+    max-width: 400px;
+  }
+
+  /* Marginalia panel */
+  .marginalia {
+    background: var(--paper-soft);
+    padding: 2.6rem 2.4rem;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  .marginalia::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--gold-deep), var(--gold-bright) 50%, var(--gold-deep));
+  }
+  .marginalia .mg-mark {
+    display: block;
+    color: var(--gold-deep);
+    font-style: normal;
+    font-size: 0.65rem;
+    font-family: 'DM Mono', monospace;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    margin-bottom: 1.6rem;
+  }
+
+  /* Cost breakdown rows inside the right panel */
+  .cost-breakdown {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+  .cb-row {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: start;
+    gap: 1rem 1.4rem;
+    padding: 1rem 0;
+    border-bottom: 1px solid var(--rule-soft);
+  }
+  .cb-row:last-child { border-bottom: none; }
+  .cb-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.15rem;
+    font-weight: 600;
+    color: var(--ink);
+    line-height: 1.2;
+    margin-bottom: 0.3rem;
+  }
+  .cb-features {
+    display: block;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.1em;
+    color: var(--ink-mute);
+    line-height: 1.6;
+  }
+  .cb-price {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: clamp(1.4rem, 2vw, 1.8rem);
+    color: var(--sindoor);
+    font-weight: 500;
+    white-space: nowrap;
+    text-align: right;
+    padding-top: 0.1rem;
+  }
+  .cb-price.free {
+    color: var(--ink-mute);
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: clamp(1.4rem, 2vw, 1.8rem);
+    font-weight: 400;
+    letter-spacing: 0.01em;
+    text-transform: none;
+  }
+
   /* =============================================================
      MOBILE — 430px and below
      ============================================================= */
@@ -1528,9 +1793,9 @@
   </div>
   <nav class="meta">
     <a href="#about">About</a>
+    <a href="#cost">Cost</a>
     <a href="#options">Paths</a>
     <a href="#anjali">Begin</a>
-    <a href="prototypes/00-directions-archive.html">← Directions</a>
   </nav>
 </header>
 
@@ -1609,9 +1874,7 @@
     </div>
   </div>
 
-  <p class="hero-sub">
-    A platform for an ancient, living tradition deserves architecture that is custom, ownership that is complete, and a builder who will still be there six months from now.
-  </p>
+  <p class="hero-sub">A platform for an ancient, living tradition deserves architecture that is custom, ownership that is complete, and a builder who actually cares about the product.</p>
 
   <div class="hero-foot">
     <span class="scroll">Read on</span>
@@ -1700,11 +1963,91 @@
 
 </section>
 
+
+<!-- UPKEEP / RUNNING COST -->
+<div class="section-rule" role="separator"><span class="sr-mark"></span></div>
+<section id="cost">
+  <div class="sec-grid reveal" style="color: rgb(224, 34, 34); font-weight: 500">
+    <div class="sec-num">II<small>RUNNING COST</small></div>
+    <div class="sec-head">
+      <p class="namaste">मूल्यम्‌ · Monthly Cost</p>
+      <h2>Monthly cloud &amp; <em>infrastructure.</em></h2>
+      <p class="deck" style="font-family: &quot;Cormorant Garamond&quot;; font-weight: 100; max-width: 860px;">Every online platform runs on rented services - think of it like the electricity, water and rent of a physical studio. This is the cost to keep Divyakala's platform live and working. It is <strong style="color:var(--sindoor);font-weight:700;font-style:normal;">separate</strong> from the builder fee and support and it stays the same whichever option you choose. It is paid directly to the service providers not to the developer.</p>
+    </div>
+  </div>
+
+  <div class="cost-cards reveal">
+    <div class="cost-card">
+      <span class="ord">i.</span>
+      <span class="ttl">Storing your videos.</span>
+      <span class="note">Every recorded lesson and class recording, kept safe on professional video servers.</span>
+    </div>
+    <div class="cost-card">
+      <span class="ord">ii.</span>
+      <span class="ttl">Streaming to students.</span>
+      <span class="note">Delivering those videos smoothly to every student, on any device — however many watch at once.</span>
+    </div>
+    <div class="cost-card">
+      <span class="ord">iii.</span>
+      <span class="ttl">Hosting the platform.</span>
+      <span class="note">Keeping the website itself online and reachable, around the clock, every day.</span>
+    </div>
+    <div class="cost-card">
+      <span class="ord">iv.</span>
+      <span class="ttl">The database.</span>
+      <span class="note">Securely holding all your courses, students, enrolments, assignments and progress.</span>
+    </div>
+  </div>
+
+  <div class="cost-footer reveal">
+    <figure class="upkeep-quote">
+      <span class="uq-glyph">❖</span>
+      <p class="uq-label">A comfortable monthly upkeep</p>
+      <p class="uq-amount"><em>₹6,000 – 9,000</em><span class="uq-per">per month, all in</span></p>
+      <p class="uq-note">The lower end is a quiet month; the higher end leaves room as your video library grows over time. This is normal for any platform of this kind.</p>
+    </figure>
+    <div class="marginalia">
+      <span class="mg-mark">✦ &nbsp;Cost breakdown</span>
+      <ul class="cost-breakdown">
+        <li class="cb-row">
+          <div>
+            <div class="cb-name">Supabase Pro</div>
+            <span class="cb-features">Database · Auth · Storage · Realtime · Edge Functions</span>
+          </div>
+          <span class="cb-price">₹2,500<small style="font-size:0.7em;font-style:normal;color:var(--ink-mute);font-family:'DM Mono',monospace;letter-spacing:0.1em">/mo</small></span>
+        </li>
+        <li class="cb-row">
+          <div>
+            <div class="cb-name">Zoom Pro</div>
+            <span class="cb-features">Live workshops · 100 participants · Cloud recording</span>
+          </div>
+          <span class="cb-price">~₹1,400<small style="font-size:0.7em;font-style:normal;color:var(--ink-mute);font-family:'DM Mono',monospace;letter-spacing:0.1em">/mo</small></span>
+        </li>
+        <li class="cb-row">
+          <div>
+            <div class="cb-name">Bunny.net</div>
+            <span class="cb-features">Video storage · Streaming · Transcoding</span>
+          </div>
+          <span class="cb-price">₹500–4,000<small style="font-size:0.7em;font-style:normal;color:var(--ink-mute);font-family:'DM Mono',monospace;letter-spacing:0.1em">/mo</small></span>
+        </li>
+        <li class="cb-row">
+          <div>
+            <div class="cb-name">Cloudflare</div>
+            <span class="cb-features">Website hosting · CDN · DDoS protection</span>
+          </div>
+          <span class="cb-price free">Free</span>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+</section>
+
 <!-- OPTIONS -->
 <div class="divider"><span class="glyph">शुभ · Paths</span></div>
 <section id="options" style="background: var(--paper-soft);">
   <div class="sec-grid reveal">
-    <div class="sec-num">II<small>Paths</small></div>
+    <div class="sec-num">III<small>Paths</small></div>
     <div class="sec-head">
       <h2>Three paths forward.<br>One <em>right fit</em>.</h2>
       <p class="deck">Each path is shaped around what Divyakala actually needs — complete ownership, room to grow, a builder who is still here. Select one to mark it.</p>
@@ -1717,7 +2060,7 @@
     <article class="leaf" data-leaf="1">
       <div class="ord">पत्र I · Path One</div>
       <h3>The Full <em>Build</em></h3>
-      <div class="price" style="font-family: &quot;Cormorant Garamond&quot;">₹75,000 – ₹80,000</div>
+      <div class="price" style="font-family: &quot;Cormorant Garamond&quot;">₹80,000</div>
       <div class="price-note">One-time · complete · seven days</div>
       <div class="divline"></div>
       <ul>
@@ -1751,16 +2094,16 @@
       <div class="seal-badge">Recommended</div>
       <div class="ord">पत्र II · Path Two</div>
       <h3>Build + <em>Retain</em></h3>
-      <div class="price">₹65,000 + ₹15-20K/mo</div>
+      <div class="price">₹70,000 + ₹20K/mo</div>
       <div class="price-note">Lower entry · ongoing partnership</div>
       <div class="divline"></div>
       <ul>
         <li>Everything in Path One — full custom LMS</li>
         <li>Student migration included</li>
-        <li>Monthly retainer — I become your dev team</li>
-        <li>New features whenever you need them</li>
+        <li>Monthly retainer - Keeping it running smoothly and stable</li>
+        <li>Smaller new features added over time.</li>
         <li>Bug fixes, updates, security patches</li>
-        <li>Full AI builder stack on retainer for Divyakala</li>
+        <li>Regular check-ins — I make sure everything is running cleanly, nothing breaks quietly</li>
         <li>Strategic input on your digital presence</li>
         <li>One point of contact for everything tech</li>
         <li>Website &amp; storefront work available for additional fee</li>
@@ -1792,7 +2135,7 @@
         <li>Maintenance &amp; smaller fixes at an hourly rate</li>
         <li class="con">Codebase handoff — not guaranteed</li>
         <li class="con">Two parties responsible for one product</li>
-        <li class="con">4–5 days of integration — a full LMS could be built in the same time</li>
+        <li class="con">Desired LMS features may not be possible, or the way you want them</li>
         <li class="con">You do not own the underlying LMS</li>
       </ul>
       <p class="verdict">More scope, more moving parts. The ownership question remains.</p>
@@ -1828,7 +2171,7 @@
 </section>
 
 
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
   // === INTRO SEQUENCE ===
   const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   document.body.classList.add('intro-active');
